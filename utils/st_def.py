@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_extras.add_vertical_space import add_vertical_space
+from streamlit_extras.stateful_button import button
 
 def st_sidebar():
     with st.sidebar:
@@ -14,10 +15,10 @@ def st_logo():
     st.markdown("""
     <style>
         [data-testid="stSidebarNav"] {
-            background-image: url(https://hypech.com/images/logo/st_receiptbot.png);
+            background-image: url(https://hypech.com/images/logo/aixpertlab_logo.png);
             background-size: 300px; /* Set the width and height of the image */
             background-repeat: no-repeat;
-            padding-top: 80px;
+            padding-top: 150px;
             background-position: 15px 10px;
         }
     </style>

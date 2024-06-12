@@ -1,0 +1,66 @@
+table_name,column_name,data_type
+auth_group_permissions,group_id,integer
+auth_user,is_active,boolean
+auth_user,date_joined,timestamp with time zone
+auth_user_groups,id,bigint
+auth_user_groups,user_id,integer
+auth_user_groups,group_id,integer
+auth_user,last_login,timestamp with time zone
+auth_user_user_permissions,id,bigint
+auth_user_user_permissions,user_id,integer
+auth_user_user_permissions,permission_id,integer
+django_admin_log,id,integer
+django_admin_log,action_time,timestamp with time zone
+django_admin_log,action_flag,smallint
+django_admin_log,content_type_id,integer
+django_admin_log,user_id,integer
+blog_post,id,bigint
+blog_post,publish,timestamp with time zone
+blog_post,created,timestamp with time zone
+blog_post,updated,timestamp with time zone
+blog_post,author_id,integer
+blog_comment,id,bigint
+blog_comment,created,timestamp with time zone
+blog_comment,updated,timestamp with time zone
+blog_comment,active,boolean
+blog_comment,post_id,bigint
+django_session,expire_date,timestamp with time zone
+inventor,product_id ,smallint
+inventor,stock_qty,bigint
+django_migrations,id,bigint
+django_migrations,applied,timestamp with time zone
+django_content_type,id,integer
+auth_permission,id,integer
+auth_permission,content_type_id,integer
+auth_group,id,integer
+auth_group_permissions,id,bigint
+product_master,product_id,smallint
+auth_group_permissions,permission_id,integer
+auth_user,id,integer
+auth_user,is_superuser,boolean
+auth_user,is_staff,boolean
+product_master,product_name,character varying
+auth_permission,name,character varying
+auth_user,email,character varying
+django_session,session_data,text
+django_migrations,app,character varying
+django_migrations,name,character varying
+auth_user,username,character varying
+auth_user,last_name,character varying
+django_content_type,app_label,character varying
+django_content_type,model,character varying
+auth_user,first_name,character varying
+blog_post,title,character varying
+auth_permission,codename,character varying
+blog_post,slug,character varying
+blog_post,body,text
+blog_comment,name,character varying
+blog_comment,email,character varying
+auth_group,name,character varying
+django_admin_log,object_id,text
+auth_user,password,character varying
+django_admin_log,object_repr,character varying
+blog_comment,body,text
+django_admin_log,change_message,text
+blog_post,status,character varying
+django_session,session_key,character varying
