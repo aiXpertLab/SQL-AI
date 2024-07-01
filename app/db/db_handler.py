@@ -22,27 +22,41 @@ Usage:
 Instantiate the DatabaseHandler class with a database URI, 
 then call save_db_details to connect to the database, fetch table details, and save them to a CSV file.
 """
-
+import os
 import streamlit as st
 import psycopg2
 import pandas as pd
-from uuid import uuid4
 
 
 class DatabaseHandler:
+
     def __init__(self):
         """
-        Establishes a connection to the PostgreSQL database using the provided URI and initializes a unique ID.
+        Establishes a connection to the PostgreSQL database using the provided URI
         """
         try:            
-            self.connection = psycopg2.connect(st.session_state.db_uri)  # Connect to the database
+            self.connection = psycopg2.connect(os.environ.get('POSTGRESQL_AI_URI'))  # Connect to the database
             self.cursor = self.connection.cursor()  # Initialize a cursor
         except Exception as e:
             st.error(f"Failed to connect to the database: {e}")
             raise
 
+    def execute_sql(self, solution):
+        try:
+            _,final_query,_ = solution.split("```")
+            final_query = final_query.strip('sql')
+            self.cursor.execute(final_query)
+            result = self.cursor.fetchall()
+            return str(result)
+        except Exception as e:
+            st.error(f"Failed to save database details: {e}")
+            raise
+        finally:
+            self.cursor.close()
+            self.connection.close()
+
     def get_basic_table_details(self):
-        """
+        """ run once in global_initialization
         Fetches basic details (table names, column names, and data types) of tables in the 'public' schema.
 
         Returns:
@@ -67,35 +81,26 @@ class DatabaseHandler:
         tables_and_columns = self.cursor.fetchall()
         return tables_and_columns
 
-    def save_db_details(self) -> str:
+    def get_db_schema(self):
+        """ run once in global_initialization
+            :param query:
+            :param unique_id:
+            :param db_uri:
+            :return:
         """
-        Fetches the basic table details and saves them to a CSV file named with the unique ID.
-        Closes the database connection afterward.
-
-        Returns:
-            str: The unique ID for the session.
-        """
-        unique_id = str(uuid4()).replace("-", "_")
-        st.code(f'save_db_details.DbHandler: {unique_id}')
         try:
             tables_and_columns = self.get_basic_table_details()  # Fetch table details
             df = pd.DataFrame(tables_and_columns, columns=['table_name', 'column_name', 'data_type'])
-            filename = f'{st.session_state.tables}/t_{unique_id}.csv'
-            df.to_csv(filename, index=False)  # Save details to CSV file
-            return unique_id
+            # df.to_csv(st.session_state.TABLES_COLUMNS_CSV, index=False)  # Save details to CSV file
+            table_info = ''
+            for table in df['table_name']:
+                table_info += f'Information about table {table}:\n'
+                table_info += df[df['table_name'] == table].to_string(index=False) + '\n\n\n'
+            st.success('tables ready.')
+            return table_info
         except Exception as e:
             st.error(f"Failed to save database details: {e}")
             raise
         finally:
             self.cursor.close()
             self.connection.close()
-
-    def execute_the_solution(solution, db_uri):
-        connection = psycopg2.connect(db_uri)
-        cursor = connection.cursor()
-        _,final_query,_ = solution.split("```")
-        final_query = final_query.strip('sql')
-        cursor.execute(final_query)
-        result = cursor.fetchall()
-        return str(result)
-

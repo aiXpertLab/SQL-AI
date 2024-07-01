@@ -1,18 +1,18 @@
 # llm_prompt_engineer.py
-import streamlit as st
+import os
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import SystemMessage
 from langchain_core.prompts import HumanMessagePromptTemplate
 
 
-def sql_generated_from_tables(query, table_info, chat_llm):
+def sql_based_on_tables(query, table_info, chat_llm):
     template = ChatPromptTemplate.from_messages(
         [
             SystemMessage(
                 content=(
                     f"You are an assistant that can write complicated SQL Queries."
                     f"Given the text below, write a SQL query that answers the user's question."
-                    f"DB connection string is {st.session_state.db_uri}"
+                    f"DB connection string is {os.environ.get('POSTGRESQL_AI_URI')}"
                     f"Here is a detailed description of the table(s): "
                     f"{table_info}"
                     "Prepend and append the SQL query with three backticks '```'"
@@ -71,7 +71,3 @@ def sql_for_foreignkeys(query, relevant_tables, table_info, foreign_key_info):
     answer = chat_llm(template.format_messages(text=query))
     print(answer.content)
     return answer.content
-
-
-
-

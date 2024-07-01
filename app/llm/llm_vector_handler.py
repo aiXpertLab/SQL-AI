@@ -33,10 +33,9 @@ class LLMVectorHandler(llm_handler.LLMHandler):
         st.write(answer.content)
         return answer.content
 
-    def get_the_output_from_llm(self, query, unique_id):
+    def get_response_from_llm(self, query):
         # Load the tables csv
-        filename_t = f'{st.session_state.tables}tables_{unique_id}.csv'
-        df = pd.read_csv(filename_t)
+        df = pd.read_csv(st.session_state.path_tables_columns)
 
         # For each relevant table create a string that list down all the columns and their data types
         table_info = ''

@@ -10,20 +10,21 @@
     - unique_id
     - ui to run()
 """
-import streamlit as st
-from utils import streamlit_components, docs
+from app.utils import streamlit_components,streamlit_docs
 
 streamlit_components.streamlit_ui('🦣 PostgreSQL')
-docs.postgre_intro()
+streamlit_docs.postgre_intro()
 # -----------------------------------------------------------------------------------------------------------
-from app import db_handler, session_handler, llm_handler, chat_ui
+from app import (
+    chat_ui,
+    db_handler,
+    llm_handler
+)
 
-with st.spinner('loading'):
-    if __name__ == "__main__":
+if __name__ == "__main__":
 
-        session_handler.session_init()              # init session_state: uri, unique_id, message
-        db_handler = db_handler.DatabaseHandler()   # init: session_state add uri, with save() get unique_id.
-        llm_handler = llm_handler.LLMHandler()      # Initialize the language model handler with the OpenAI API key
-        app = chat_ui.ChatUI(db_handler, llm_handler)   # Create an instance of the Streamlit UI and pass the handlers to it
+    db_handler = db_handler.DatabaseHandler()   # init: session_state add uri, with save() get unique_id.
+    llm_handler = llm_handler.LLMHandler()      # Initialize the language model handler with the OpenAI API key
+    app = chat_ui.ChatUI(db_handler, llm_handler)   # Create an instance of the Streamlit UI and pass the handlers to it
 
-        app.run()   # Run the Streamlit application
+    app.run()   # Run the Streamlit application
