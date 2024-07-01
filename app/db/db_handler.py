@@ -24,33 +24,22 @@ then call save_db_details to connect to the database, fetch table details, and s
 """
 
 import streamlit as st
-import os
 import psycopg2
 import pandas as pd
+from uuid import uuid4
 
 
 class DatabaseHandler:
-    def __init__(self): pass
-
-    def connect_to_db(self):
+    def __init__(self):
         """
         Establishes a connection to the PostgreSQL database using the provided URI and initializes a unique ID.
-        Creates a 'data' folder if it does not exist.
         """
         try:            
             self.connection = psycopg2.connect(st.session_state.db_uri)  # Connect to the database
             self.cursor = self.connection.cursor()  # Initialize a cursor
-            self._create_data_folder()  # Create 'data' folder if it doesn't exist
         except Exception as e:
             st.error(f"Failed to connect to the database: {e}")
             raise
-
-    def _create_data_folder(self):
-        if not os.path.exists('data'):
-            os.makedirs('data')
-            print("Folder 'data' created.")
-        else:
-            print("Folder 'data' already exists.")
 
     def get_basic_table_details(self):
         """
@@ -59,7 +48,6 @@ class DatabaseHandler:
         Returns:
             list: A list of tuples containing table details.
         """
-        self.connect_to_db()  # Connect to the database
 
         query = """
         SELECT
@@ -87,15 +75,27 @@ class DatabaseHandler:
         Returns:
             str: The unique ID for the session.
         """
+        unique_id = str(uuid4()).replace("-", "_")
+        st.code(f'save_db_details.DbHandler: {unique_id}')
         try:
             tables_and_columns = self.get_basic_table_details()  # Fetch table details
             df = pd.DataFrame(tables_and_columns, columns=['table_name', 'column_name', 'data_type'])
-            filename = f'data/tables_{st.session_state.unique_id}.csv'
+            filename = f'{st.session_state.tables}/t_{unique_id}.csv'
             df.to_csv(filename, index=False)  # Save details to CSV file
-            return st.session_state.unique_id
+            return unique_id
         except Exception as e:
             st.error(f"Failed to save database details: {e}")
             raise
         finally:
             self.cursor.close()
             self.connection.close()
+
+    def execute_the_solution(solution, db_uri):
+        connection = psycopg2.connect(db_uri)
+        cursor = connection.cursor()
+        _,final_query,_ = solution.split("```")
+        final_query = final_query.strip('sql')
+        cursor.execute(final_query)
+        result = cursor.fetchall()
+        return str(result)
+

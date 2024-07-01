@@ -34,3 +34,27 @@ def main_intro():
 
             ### Let's explore the potential of the AI SQL!
          ''')
+
+
+
+def chroma_postgre_intro():
+    st.markdown(
+        """
+        When sending entire columns and tables as context to the prompt is not practical, VectorDB provides help.
+        ###### [Click to check Sample Database ERD](https://omnidevx.netlify.app/logo/postgresqlerd.png)
+        ###### [Click to setup your own database](https://ai-pro.gitbook.io/ai-sql-linguist/installation/database-uri)
+
+        ##### Sample queries
+        - List all the films by ordered by their length
+        - List how many films there are in each film category
+        - Show the actors and actresses ordered by how many movies they are featured in
+        - Get a list of all active customers, ordered by their first name
+
+        ##### Challenge
+        - What is the total revenue of each rental store?
+        - Can you list the top 5 film genres by their gross revenue?
+        - The film.description has the text type, allowing for full text search queries, what will you search for?        
+        """)
+    st.info("DON'T TRY: `DELETE, TRUNCATE, DROP TABLE, DROP DATABASE` ")
+
+

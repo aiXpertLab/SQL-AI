@@ -3,3 +3,4 @@ streamlit_extras
 
 psycopg2~=2.9.9
 pandas~=2.2.2
+chromadb

@@ -2,7 +2,6 @@ import streamlit as st
 
 import os
 import re
-from uuid import uuid4
 
 
 def is_valid_postgresql_uri(uri):
@@ -24,11 +23,11 @@ def is_valid_postgresql_uri(uri):
 
 def session_init():
 
-    unique_id = str(uuid4()).replace("-", "_")  # Generate a unique ID
-
-    if "unique_id" not in st.session_state:
-        st.session_state.unique_id = []
-    st.session_state.unique_id = unique_id
+    # unique_id = str(uuid4()).replace("-", "_")  # Generate a unique ID
+    #
+    # if "unique_id" not in st.session_state:
+    #     st.session_state.unique_id = []
+    # st.session_state.unique_id = unique_id
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -41,3 +40,15 @@ def session_init():
             st.success("Database URI is set successfully.")
         else:
             st.error("Invalid database URI.")
+
+    if "foreignkeys" not in st.session_state:
+        st.session_state.foreignkeys = []
+    st.session_state.foreignkeys = 'data/foreignkeys/'
+
+    if "vectors" not in st.session_state:
+        st.session_state.vectors = []
+        st.session_state.vectors = 'data/vectors/'
+
+    if "tables" not in st.session_state:
+        st.session_state.tables = []
+        st.session_state.tables = 'data/tables/'

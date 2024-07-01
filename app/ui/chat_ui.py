@@ -27,22 +27,20 @@ class ChatUI:
     def __init__(self, db_handler, llm_handler):
         self.db_handler = db_handler
         self.llm_handler = llm_handler
+        self.unique_id = ''
 
     def connect_to_db(self) -> dict:
         try:
-            st.session_state.unique_id = self.db_handler.save_db_details()  # st.session_state: db_uri, unique_id
-            st.write(st.session_state.unique_id)
+            self.unique_id = self.db_handler.save_db_details()  # st.session_state: db_uri, unique_id
+            st.code(f'connect_to_db.chatUI: {self.unique_id}')
             return {"message": "Connection established to Database!"}
         except Exception as e:
             return {"error": str(e)}
 
     def send_message(self, message):
 
-        solution = self.llm_handler.get_the_output_from_llm(
-            message, st.session_state.unique_id, st.session_state.db_uri)
-
-        result = self.llm_handler.execute_the_solution(
-            solution, st.session_state.db_uri)
+        solution = self.llm_handler.get_the_output_from_llm(message, self.unique_id)
+        result = self.llm_handler.execute_the_solution(solution)
 
         return {"message": solution + "\n\nResult:\n" + result}
 
