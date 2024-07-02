@@ -24,23 +24,29 @@ import streamlit as st
 
 class ChatUI:
 
-    def __init__(self, db_handler, llm_handler):
+    def __init__(self, db_handler, llm_handler, vector_or_others):
         self.db_handler = db_handler
         self.llm_handler = llm_handler
+        self.vector_or_others = vector_or_others
 
     def send_message(self, message):
-        respond_contents = self.llm_handler.get_response_from_llm(message)
-        result = self.db_handler.execute_sql(respond_contents)
+        if self.vector_or_others == 'vector':
+            print('vector')
+            respond_contents = self.llm_handler.get_response_from_llm_vector(message)
+        else:
+            respond_contents = self.llm_handler.get_response_from_llm(message)
 
-        return {"message": respond_contents + "\n\nResult:\n" + result}
+        result = self.db_handler.execute_sql(respond_contents)
+        result = result.replace("),", "),  \n")
+
+        return {"message": respond_contents + "\n\n ###### Result: ###### \n\n" + result}
 
     def run(self):
-        # chat_response = self.connect_to_db()  # "message": "Connection established to Database!"
         for message in st.session_state.messages:
             with st.chat_message(message["role"]):
-                st.write(message["content"])
+                st.markdown(message["content"])
 
-        if prompt := st.chat_input("⌨️Start with: show tables"):
+        if prompt := st.chat_input("⌨️ ask me "):
             st.chat_message("user").markdown(prompt)            # 1.Display user message in chat message container
 
             st.session_state.messages.append(
@@ -48,7 +54,7 @@ class ChatUI:
 
             response = self.send_message(prompt)["message"]     # 3. Get message from ChatGPT
             with st.chat_message("assistant"):
-                st.markdown(response)                           # 4. Display message from ChatGPT
+                st.info(response)                           # 4. Display message from ChatGPT
 
             st.session_state.messages.append(
                 {"role": "assistant", "content": response})     # 5. keep history

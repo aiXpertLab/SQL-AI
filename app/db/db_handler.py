@@ -96,7 +96,6 @@ class DatabaseHandler:
             for table in df['table_name']:
                 table_info += f'Information about table {table}:\n'
                 table_info += df[df['table_name'] == table].to_string(index=False) + '\n\n\n'
-            st.success('tables ready.')
             return table_info
         except Exception as e:
             st.error(f"Failed to save database details: {e}")

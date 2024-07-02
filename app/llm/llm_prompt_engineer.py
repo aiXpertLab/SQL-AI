@@ -39,33 +39,6 @@ def sql_for_schema(query, chat_llm):
                 )
             ),
             HumanMessagePromptTemplate.from_template("{text}"),
-
-        ]
-    )
-
-    answer = chat_llm(template.format_messages(text=query))
-    print(answer.content)
-    return answer.content
-
-
-def sql_for_foreignkeys(query, relevant_tables, table_info, foreign_key_info):
-    tables = ",".join(relevant_tables)
-    template = ChatPromptTemplate.from_messages(
-        [
-            SystemMessage(
-                content=(
-                    f"You are an assistant that can write SQL Queries."
-                    f"Given the text below, write a SQL query that answers the user's question."
-                    f"Assume that there is/are SQL table(s) named '{tables}' "
-                    f"Here is a more detailed description of the table(s): "
-                    f"{table_info}"
-                    "Here is some information about some relevant foreign keys:"
-                    f"{foreign_key_info}"
-                    "Prepend and append the SQL query with three backticks '```'"
-                )
-            ),
-            HumanMessagePromptTemplate.from_template("{text}"),
-
         ]
     )
 
@@ -75,7 +48,6 @@ def sql_for_foreignkeys(query, relevant_tables, table_info, foreign_key_info):
 
 
 def sql_for_vector(query, relevant_tables, table_info, chat_llm):
-
     template = ChatPromptTemplate.from_messages(
         [
             SystemMessage(
@@ -92,7 +64,5 @@ def sql_for_vector(query, relevant_tables, table_info, chat_llm):
 
         ]
     )
-
     answer = chat_llm(template.format_messages(text=query))
-    print(answer.content)
     return answer.content

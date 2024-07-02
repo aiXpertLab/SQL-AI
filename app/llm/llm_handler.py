@@ -2,11 +2,9 @@
 import streamlit as st
 
 import os
-import pandas as pd
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import SystemMessage
 from langchain_core.prompts import HumanMessagePromptTemplate
-from langchain_chroma import Chroma
 from langchain_openai import OpenAI, ChatOpenAI, OpenAIEmbeddings
 
 from . import llm_prompt_engineer
@@ -46,21 +44,17 @@ class LLMHandler:
                 HumanMessagePromptTemplate.from_template("{text}"),
             ]
         )
-
         answer = self.chat_llm(template.format_messages(text=query))
-        st.write(answer.content)
         return answer.content
 
     def get_response_from_llm_vector(self, query):
         schema_or_sql = self.schema_or_sql(query)
-        if schema_or_sql == "schema":
+        if schema_or_sql == "dbschema":
             return llm_prompt_engineer.sql_for_schema(self.chat_llm, query)
         else:
             vectordb = st.session_state.VECTOR_EMBEDDINGS
             retriever = vectordb.as_retriever()
             docs = retriever.get_relevant_documents(query)
-            st.write(docs)
-            st.write('-'*100)
 
             relevant_tables = []
             relevant_tables_and_columns = []
@@ -77,20 +71,3 @@ class LLMHandler:
             table_info = st.session_state.DB_SCHEMA
 
             return llm_prompt_engineer.sql_for_vector(query, relevant_tables, table_info, self.chat_llm)
-
-            # ## Load the foreign keys csv
-            # filename_fk = f'{st.session_state.foreignkeys}foreign_keys_{unique_id}.csv'
-            # df_fk = pd.read_csv(filename_fk)
-            # ## If table from relevant_tables above lies in refered_table or table_name in df_fk, then add the foreign key details to a string
-            # foreign_key_info = ''
-            # for i, series in df_fk.iterrows():
-            #     if series['table_name'] in relevant_tables:
-            #         text = table + ' has a foreign key ' + series['foreign_key'] + ' which refers to table ' + series[
-            #             'referred_table'] + ' and column(s) ' + series['referred_columns']
-            #         foreign_key_info += text + '\n\n'
-            #     if series['referred_table'] in relevant_tables:
-            #         text = table + ' is referred to by table ' + series['table_name'] + ' via foreign key ' + series[
-            #             'foreign_key'] + ' and column(s) ' + series['referred_columns']
-            #         foreign_key_info += text + '\n\n'
-            #
-            # return llm_prompt_engineer.sql_for_foreignkeys(query, relevant_tables, table_info, foreign_key_info)
