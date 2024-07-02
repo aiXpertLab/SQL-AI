@@ -3,6 +3,10 @@ import streamlit as st
 import os
 import re
 
+from langchain_chroma import Chroma
+from langchain_core.documents import Document
+from langchain_openai import OpenAI, ChatOpenAI, OpenAIEmbeddings
+
 from ..db import db_handler
 
 
@@ -34,5 +38,14 @@ def session_init():
 
     if "DB_SCHEMA" not in st.session_state:
         st.session_state.DB_SCHEMA = []
-    st.session_state.DB_SCHEMA = db_handler.DatabaseHandler().get_db_schema()
+        table_info: str = db_handler.DatabaseHandler().get_db_schema()
 
+        # Save the document to the vector database
+        # document = Document(content=table_info)
+        document = Document(page_content=table_info)
+        embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
+        vectordb = Chroma(embedding_function=embeddings, persist_directory='data/chroma')
+        vectordb.add_documents([document])
+
+        st.session_state.DB_SCHEMA = table_info
+        st.session_state.VECTOR_EMBEDDINGS = vectordb
