@@ -1,0 +1,130 @@
+Folder PATH listing for volume DEV
+Volume serial number is E60B-C9F2
+A:.
+│   .env
+│   .env.sample
+│   .gitignore
+│   AI_SQL_Linguist.py
+│   LICENSE
+│   README.md
+│   requirements.txt
+│   tree.txt
+│   __init__.py
+│   
+├───.idea
+│   │   .gitignore
+│   │   dataSources.local.xml
+│   │   dataSources.xml
+│   │   misc.xml
+│   │   modules.xml
+│   │   SQL-AI.iml
+│   │   sqldialects.xml
+│   │   vcs.xml
+│   │   workspace.xml
+│   │   
+│   ├───dataSources
+│   │   │   cc2be0ee-a115-4c1f-8e00-8bec67b8167d.xml
+│   │   │   da9d61dd-6bd5-4066-b2de-4715ede62ab1.xml
+│   │   │   dd46fb9c-a1f8-45d0-b4e5-eaf12d7d8f80.xml
+│   │   │   
+│   │   ├───cc2be0ee-a115-4c1f-8e00-8bec67b8167d
+│   │   │   └───storage_v2
+│   │   │       └───_src_
+│   │   │           └───schema
+│   │   │                   main.uQUzAA.meta
+│   │   │                   
+│   │   ├───da9d61dd-6bd5-4066-b2de-4715ede62ab1
+│   │   │   └───storage_v2
+│   │   │       └───_src_
+│   │   │           └───schema
+│   │   │                   main.uQUzAA.meta
+│   │   │                   
+│   │   └───dd46fb9c-a1f8-45d0-b4e5-eaf12d7d8f80
+│   │       └───storage_v2
+│   │           └───_src_
+│   │               └───schema
+│   │                       main.uQUzAA.meta
+│   │                       
+│   ├───inspectionProfiles
+│   │       profiles_settings.xml
+│   │       
+│   └───scopes
+│           HideFiles.xml
+│           
+├───app
+│   │   __init__.py
+│   │   
+│   ├───db
+│   │   │   db_handler.py
+│   │   │   
+│   │   └───__pycache__
+│   │           DatabaseHandler.cpython-311.pyc
+│   │           db_handler.cpython-311.pyc
+│   │           
+│   ├───llm
+│   │   │   llm_handler.py
+│   │   │   llm_prompt_engineer.py
+│   │   │   
+│   │   └───__pycache__
+│   │           LLMHandler.cpython-311.pyc
+│   │           llm_handler.cpython-311.pyc
+│   │           llm_prompt_engineer.cpython-311.pyc
+│   │           __init__.cpython-311.pyc
+│   │           
+│   ├───ui
+│   │   │   chat_ui.py
+│   │   │   
+│   │   └───__pycache__
+│   │           chat_ui.cpython-311.pyc
+│   │           StreamlitUI.cpython-311.pyc
+│   │           
+│   ├───utils
+│   │   │   global_initialization.py
+│   │   │   streamlit_components.py
+│   │   │   streamlit_docs.py
+│   │   │   
+│   │   └───__pycache__
+│   │           ai.cpython-311.pyc
+│   │           db.cpython-311.pyc
+│   │           doc_processing.cpython-312.pyc
+│   │           global_initialization.cpython-311.pyc
+│   │           impage_process.cpython-311.pyc
+│   │           sidebar.cpython-311.pyc
+│   │           streamlit_components.cpython-311.pyc
+│   │           streamlit_docs.cpython-311.pyc
+│   │           st_def.cpython-311.pyc
+│   │           st_def.cpython-312.pyc
+│   │           utilities.cpython-312.pyc
+│   │           ut_openai.cpython-311.pyc
+│   │           ut_openai.cpython-312.pyc
+│   │           __init__.cpython-311.pyc
+│   │           
+│   └───__pycache__
+│           __init__.cpython-311.pyc
+│           
+├───data
+│   │   tables_columns_pg.csv
+│   │   
+│   └───chroma
+│       │   chroma.sqlite3
+│       │   
+│       └───d2d1cdcd-547e-4aeb-9fd6-204d9b894832
+│               data_level0.bin
+│               header.bin
+│               length.bin
+│               link_lists.bin
+│               
+├───images
+│       postgresql.png
+│       Screenshot1.png
+│       Screenshot2.png
+│       Screenshot3.png
+│       Screenshot4.png
+│       Screenshot5.png
+│       Screenshot6.png
+│       Screenshot7.png
+│       
+└───pages
+        1_🦣 Chat with PostgreSQL.py
+        2_⛱️Chat with SQL (Vector).py
+        
